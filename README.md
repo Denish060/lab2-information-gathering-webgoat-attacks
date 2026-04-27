@@ -1,64 +1,185 @@
 # lab2-information-gathering-webgoat-attacks
 Information gathering and web application security testing using DNS analysis, Nmap scanning, and WebGoat vulnerability exploitation (XSS, SQL Injection, CSRF, Buffer Overflow).
 
+---
+
+## Analyst Information
+
+- **Name:** Denish Adhikari  
+- **Role:** Cybersecurity Student | Junior Penetration Tester (Training Lab)  
+- **Environment:** Kali Linux  
+- **Tools Used:** Nmap, nslookup, WebGoat  
+
+---
+
 ## Objectives
-- Perform DNS reconnaissance and record analysis
-- Conduct network scanning using Nmap
-- Understand attacker perspective in information gathering
-- Exploit common web vulnerabilities using WebGoat
-- Analyze security weaknesses in web applications
 
-## Tools Used
-- nslookup (DNS reconnaissance)
-- Nmap (network scanning)
-- WebGoat (OWASP security training platform)
-- Kali Linux / Terminal
+- Perform DNS reconnaissance and infrastructure analysis  
+- Conduct network scanning and service enumeration  
+- Understand attacker methodology in information gathering  
+- Exploit common web application vulnerabilities  
+- Analyze security weaknesses and their real-world impact  
 
-## Part 1: Information Gathering
+---
 
-### DNS Reconnaissance (nslookup)
-- Retrieved A, AAAA, MX, NS, and TXT records for google.com
-- Identified mail servers, name servers, and verification records
-- Learned how DNS records expose infrastructure information
+## Tools & Technologies
+
+- DNS Reconnaissance: nslookup  
+- Network Scanning: Nmap  
+- Web Application Testing: WebGoat (OWASP)  
+- Environment: Kali Linux  
+
+---
+
+## Phase 1: Information Gathering (Reconnaissance)
+
+### DNS Enumeration
+
+Performed DNS queries on `google.com` to extract:
+
+- A / AAAA records (IP addresses)  
+- MX records (mail servers)  
+- NS records (name servers)  
+- TXT records (verification and metadata)  
 
 ### Security Insight
-DNS records can be used by attackers for:
-- Identifying mail servers for phishing/spam attacks
-- Mapping infrastructure and attack surfaces
-- Discovering domain ownership and verification data
 
-### Network Scanning (Nmap)
-- Performed scan on UNT DNS server (129.120.210.235)
-- Identified open port 53 (DNS service)
-- Attempted OS detection using Nmap
+DNS information can expose:
+
+- Mail servers → phishing/spam targeting  
+- Infrastructure layout → attack surface mapping  
+- Domain verification data → reconnaissance intelligence  
+
+---
+
+### Network Scanning
+
+Performed scan on target: `129.120.210.235` using Nmap.
+
+**Findings:**
+- Open Port: 53 (DNS service)  
+- Service identification successful  
+- OS detection attempted  
 
 ### Security Insight
-Nmap helps attackers:
-- Identify open ports and services
-- Map network infrastructure
-- Plan targeted attacks based on exposed services
 
-## Part 2: WebGoat Attacks
+Nmap enables attackers to:
 
-### Cross-Site Scripting (XSS)
-- Injected script: `<script>alert("XSS");</script>`
-- Successfully executed in browser
-- Demonstrated client-side code injection vulnerability
+- Identify open ports and running services  
+- Map network infrastructure  
+- Identify potential entry points for exploitation  
 
-### SQL Injection
-- Used payload: `1 OR 1=1--`
-- Bypassed authentication
-- Accessed sensitive user data
+---
 
-### Cross-Site Request Forgery (CSRF)
-- Simulated malicious request with hidden form
-- Demonstrated unauthorized action execution
-- Showed risk of user session exploitation
+## Phase 2: Web Application Exploitation
 
-### Buffer Overflow
-- Input large string (6000+ characters)
-- Caused memory overflow behavior
-- Demonstrated risk of memory corruption attacks
+Using WebGoat (intentionally vulnerable application), multiple attacks were executed:
+
+---
+
+### 1. Cross-Site Scripting (XSS)
+
+**Payload Used:**  
+`<script>alert("XSS");</script>`
+
+**Result:**
+- Script executed successfully in browser  
+
+**Impact:**
+- Client-side code execution  
+- Session hijacking potential  
+- Credential theft risk  
+
+---
+
+### 2. SQL Injection
+
+**Payload Used:**  
+`1 OR 1=1--`
+
+**Result:**
+- Authentication bypass achieved  
+- Unauthorized access to sensitive data  
+
+**Impact:**
+- Data exposure  
+- Database compromise  
+- Privilege escalation  
+
+---
+
+### 3. Cross-Site Request Forgery (CSRF)
+
+**Method:**
+- Crafted malicious request using hidden form  
+
+**Result:**
+- Unauthorized action executed on behalf of user  
+
+**Impact:**
+- Account manipulation  
+- Unauthorized transactions  
+- Session abuse  
+
+---
+
+### 4. Buffer Overflow
+
+**Method:**
+- Input of excessive data (6000+ characters)  
+
+**Result:**
+- Memory overflow behavior observed  
+
+**Impact:**
+- Application crash  
+- Potential remote code execution  
+- System instability  
+
+---
+
+## Attack Chain (Real-World Perspective)
+
+This lab demonstrates how an attacker can progress through stages:
+
+1. Perform reconnaissance using DNS tools (nslookup)  
+2. Identify open services using Nmap  
+3. Target exposed web applications  
+4. Exploit vulnerabilities (XSS, SQL Injection, CSRF)  
+5. Gain unauthorized access to systems or data  
+6. Potentially escalate privileges or maintain persistence  
+
+---
+
+## Recommended Mitigations
+
+### Input Validation & Application Security
+- Implement strict input validation and sanitization  
+- Use parameterized queries to prevent SQL Injection  
+- Encode output to mitigate XSS  
+
+---
+
+### Authentication & Session Security
+- Implement CSRF tokens  
+- Enforce secure session handling  
+- Use multi-factor authentication where possible  
+
+---
+
+### Network Security
+- Restrict unnecessary open ports  
+- Use firewalls to limit exposure  
+- Monitor network activity  
+
+---
+
+### Secure Development Practices
+- Follow OWASP Top 10 guidelines  
+- Perform regular security testing  
+- Conduct code reviews and vulnerability scans  
+
+---
 
 ## Screenshots
 
@@ -80,26 +201,51 @@ Nmap helps attackers:
 ### Buffer Overflow
 ![BOF](buffer.png)
 
-## What I Learned
-- How attackers gather system information using DNS and network tools
-- Real-world impact of misconfigured services
-- How web vulnerabilities like XSS and SQL Injection work
-- Importance of input validation and secure coding
-- Basics of offensive cybersecurity techniques
+---
 
-## Security Conclusion
-This lab demonstrates how attackers progress from information gathering to exploitation. Proper security controls such as input validation, secure configurations, and monitoring are essential to prevent these attacks.
+## Security Outcome
+
+This lab demonstrates:
+
+- How attackers gather intelligence before exploitation  
+- How insecure input handling leads to critical vulnerabilities  
+- How multiple vulnerabilities can be chained into full compromise  
+
+---
+
+## Key Learnings
+
+- Understood reconnaissance techniques using DNS and network scanning  
+- Learned exploitation of OWASP Top 10 vulnerabilities  
+- Gained insight into attacker methodology and attack chains  
+- Recognized importance of secure coding and input validation  
+- Developed foundational penetration testing skills  
+
+---
 
 ## Skills Demonstrated
-- Cybersecurity reconnaissance using DNS enumeration
-- Network scanning and service identification using Nmap
-- Web application penetration testing using WebGoat
-- Exploitation of OWASP Top 10 vulnerabilities (XSS, SQL Injection, CSRF)
-- Understanding of memory-based vulnerabilities (Buffer Overflow)
 
-## Real-World Relevance
-This lab demonstrates how attackers move from information gathering to exploitation. It highlights the importance of securing web applications, validating inputs, and protecting network services.
+- DNS Enumeration & Reconnaissance  
+- Network Scanning (Nmap)  
+- Web Application Penetration Testing  
+- Vulnerability Exploitation (XSS, SQL Injection, CSRF)  
+- Basic Exploit Development Concepts (Buffer Overflow)  
+- Security Analysis & Threat Modeling  
+
+---
+
+## Conclusion
+
+This project demonstrates a full attack lifecycle—from reconnaissance to exploitation—highlighting how insecure configurations and poor input validation can lead to system compromise.
+
+It reflects practical skills required in:
+- Penetration Testing  
+- Web Application Security  
+- Security Operations (SOC Analysis)  
+
+---
 
 ## Author
-Denish Adhikari  
-Cybersecurity Student | Information Security & Penetration Testing Fundamentals
+
+**Denish Adhikari**  
+Cybersecurity Student | Aspiring Security Analyst  
